@@ -5,7 +5,7 @@ import { MdEditNote, MdLogout } from 'react-icons/md'; // Importando os ícones
 import { AiOutlineEdit , AiOutlineFileExcel } from 'react-icons/ai'; // Importando os ícones
 
 function PerfilAluno() {
-  const logoPgcomp = "assets/logopgcomp.png"; // Logo
+  const logoPgcop = "assets/logoPgcop.png"; // Logo
 
   const dataDeInicio = new Date("2023-02-01"); // Data de Início do aluno
 
@@ -73,7 +73,7 @@ function PerfilAluno() {
       <header>
         <div className="containerAluno">
           <div className="infoAluno">
-          <img src={logoPgcomp} alt="Logo" />
+          <img src={logoPgcop} alt="Logo" />
           <div className="boxInfoAluno">
             <h3>José  Silva José Silva</h3>
             <p><span>Titulação:</span> Mestrado/Doutorado</p>

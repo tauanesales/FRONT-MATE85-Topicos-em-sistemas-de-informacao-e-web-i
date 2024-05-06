@@ -5,7 +5,7 @@ import { MdGroupAdd, MdOutlineLibraryBooks, MdLogout } from 'react-icons/md'; //
 
 function PerfilCoordenador(){
 
-    const logoPgcomp = "assets/logopgcomp.png"; // Logo
+    const logoPgcop = "assets/logoPgcop.png"; // Logo
 
     const alunosData = [
         { id: 1, nome: 'João Silva', matricula: '2022001', titulacao: 'Mestrado', datafinal: '03/05/2024' },
@@ -43,7 +43,7 @@ function PerfilCoordenador(){
           <header>
             <div className="containerCoordenador">
               {/* Logo*/}
-              <img src={logoPgcomp} alt="Logo" />
+              <img src={logoPgcop} alt="Logo" />
               {/* Informações do perfil */}
               <div className="infoCoordenador" style={{ justifyContent: "space-between", marginRight: "30px" }}>
                 <div>
