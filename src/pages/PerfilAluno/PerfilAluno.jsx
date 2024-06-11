@@ -5,6 +5,8 @@ import { AiOutlineEdit, AiOutlineFileExcel } from "react-icons/ai";
 import { MdEditNote, MdLogout } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 
+
+
 import { useUserQueries } from "@/queries/user";
 
 function PerfilAluno() {
