@@ -30,7 +30,7 @@ Acesse o documento [aqui](/docs/instalacao.md) para saber como configurar o ambi
 
 ### Links:
 - [Aplicação em Produção](https://front.mate85.tauane.artadevs.tech)
-- [Tutorial de Instalação](./docs/instalacao.md)
+- [Tutorial de Instalação: frontend e backend](https://docs.google.com/document/d/1YcuaeqOL8hw_qZtkXWW5xiz_TFoLFvJ-SSdYZ21bH0w/edit?usp=sharing)
 - [Gestão do Projeto (Trello)](https://trello.com/templates/project-management/gestão-de-projetos-fn73Cyyt)
 - [Documento de Requisitos](https://docs.google.com/document/d/1pyL5qi0StpbdY4Hxs0oPhLO5XkQL6UaDdRmx9OWwfYU/edit)
 - [Figma](https://www.figma.com/file/QzQO76oFpBcMDePKnyhh2b/Figma-basics?type=design&node-id=621-44&mode=design&t=KEnbQcJLPGA2aSEh-0)
