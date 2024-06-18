@@ -1,0 +1,5 @@
+/* Remover o círculo ao redor do ícone do olho quando ele está focado */
+.icon-button-no-outline:focus {
+    outline: none;
+    box-shadow: none;
+  }

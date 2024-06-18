@@ -39,6 +39,14 @@ function PerfilAluno() {
     professores.find((professor) => professor.id === user.orientador_id)
       ?.nome ?? "-";
 
+  const { useGetProfessores } = useProfessoresQueries();
+
+  const { data: professores = [] } = useGetProfessores();
+
+  const nomeOrientador =
+    professores.find((professor) => professor.id === user.orientador_id)
+      ?.nome ?? "-";
+
   const [tarefaEmEdicao, setTarefaEmEdicao] = useState<number | null>(null);
   const [dataSelecionada, setDataSelecionada] = useState(new Date());
 

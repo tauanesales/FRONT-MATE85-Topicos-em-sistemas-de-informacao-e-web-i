@@ -55,14 +55,14 @@ const Login = () => {
           <h1>Bem vindo de volta ao PGCop</h1>
           <div className="inputs">
             {/* Campo Email */}
-            <Input
+            <Input style={{color:'grey'}}
               label="Email"
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
             {/* Campo Senha */}
-            <InputPassword
+            <InputPassword style={{color:'grey'}}
               label="Senha"
               type="password"
               value={password}
@@ -85,7 +85,7 @@ const Login = () => {
 
           {/* Links Cadastro e Recuperação de senha */}
           <div className="links">
-            <a href="/cadastro-aluno" className="text">
+            <a href="/cadastro-aluno" >
               Cadastre-se
             </a>
 

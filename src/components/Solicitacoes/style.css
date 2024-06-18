@@ -3,11 +3,8 @@
     border-radius: 5px;
     background-color: #fff;
     padding: 10px;
-    width: 350px;
-  }
-  
-  .solicitacoes-container ul {
-    list-style: none;
+    width: 28em;
+    margin-top: -7em;
   }
   
   .solicitacoes-container li {
