@@ -1,6 +1,6 @@
 import "./styles.css";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { MdGroupAdd, MdLogout, MdOutlineLibraryBooks } from "react-icons/md"; // Importando ícones
 import { useNavigate } from "react-router-dom";
 
@@ -12,6 +12,7 @@ import { useUserQueries } from "@/queries/user";
 
 function PerfilCoordenador() {
   const logoPgcop = "/assets/logoPgcop.png";
+  const containerRef = useRef(null);
 
   const navigate = useNavigate();
 
@@ -39,27 +40,27 @@ function PerfilCoordenador() {
   const alunosData = [
     {
       id: 1,
-      nome: "João Silva",
+      nome: "Vini Silva",
       matricula: "2022001",
       titulacao: "Mestrado",
       datafinal: "03/05/2024",
     },
     {
-      id: 1,
-      nome: "João Silva",
+      id: 8,
+      nome: "Claudio Silva",
       matricula: "2022001",
       titulacao: "Mestrado",
       datafinal: "03/05/2024",
     },
     {
-      id: 1,
-      nome: "João Silva",
+      id: 9,
+      nome: "Savio Silva",
       matricula: "2022001",
       titulacao: "Mestrado",
       datafinal: "03/05/2024",
     },
     {
-      id: 1,
+      id: 10,
       nome: "João Silva",
       matricula: "2022001",
       titulacao: "Mestrado",
@@ -112,7 +113,6 @@ function PerfilCoordenador() {
   const [alunos, setAlunos] = useState(alunosData);
   const [showModal, setShowModal] = useState(false);
   const [selectedAluno, setSelectedAluno] = useState(null);
-
   const [showSolicitacoes, setShowSolicitacoes] = useState(false);
 
   useEffect(() => {
@@ -134,7 +134,28 @@ function PerfilCoordenador() {
     );
     setAlunos(updatedAlunos);
     setShowModal(false);
+    setSelectedAluno(null); // Limpar o aluno selecionado após a remoção
   };
+
+  const handleSolicitacoesClick = () => {
+    setShowSolicitacoes(!showSolicitacoes);
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(event.target)
+      ) {
+        setShowSolicitacoes(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [containerRef]);
 
   // Separa os alunos baseados na titulação
   const alunosMestrado = alunos.filter(
@@ -143,8 +164,6 @@ function PerfilCoordenador() {
   const alunosDoutorado = alunos.filter(
     (aluno) => aluno.titulacao === "Doutorado",
   );
-
-  const handleSolicitacoesClick = () => setShowSolicitacoes(!showSolicitacoes);
 
   return (
     <div className="contain">
@@ -162,31 +181,26 @@ function PerfilCoordenador() {
           </div>
           {/* Botões Toolbar */}
           <div>
-            <div className="botoesToolbar">
-              <div style={{ position: "relative" }}>
-                <MdGroupAdd
-                  onClick={handleSolicitacoesClick}
-                  style={{
-                    marginRight: "40px",
-                    cursor: "pointer",
-                    color: solicitacoes.length > 0 ? "red" : "inherit",
-                  }}
-                  size={35}
-                  title="Solicitações"
-                />
-                {showSolicitacoes && (
-                  <div
-                    className="solicitacoesContainer"
-                    style={{ position: "absolute", top: "-50px" }}
-                  >
-                    <Solicitacoes
-                      solicitacoes={solicitacoes}
-                      handleAcceptRequest={handleAcceptRequest}
-                      handleRemoveRequest={handleRemoveRequest}
-                    />
-                  </div>
-                )}
-              </div>
+            <div style={{ marginTop: "-0.3em" }}>
+              <MdGroupAdd
+                onClick={handleSolicitacoesClick}
+                style={{
+                  marginRight: "40px",
+                  cursor: "pointer",
+                  color: solicitacoes.length > 0 ? "red" : "inherit",
+                }}
+                size={35}
+                title="Solicitações"
+              />
+              {showSolicitacoes && (
+                <div ref={containerRef} className="solicitacoesContainer">
+                  <Solicitacoes
+                    solicitacoes={solicitacoes}
+                    handleAcceptRequest={handleAcceptRequest}
+                    handleRemoveRequest={handleRemoveRequest}
+                  />
+                </div>
+              )}
             </div>
             <div>
               <MdOutlineLibraryBooks
@@ -208,118 +222,129 @@ function PerfilCoordenador() {
         </div>
       </div>
 
-      <h2 style={{ textAlign: "center", marginTop: "40px" }}>
+      <h2
+        style={{ textAlign: "center", marginTop: "40px", marginBottom: "10px" }}
+      >
         Lista de Orientandos
       </h2>
       {/* Container de Alunos Orientados - Mestrado */}
-      <div className="containerOrientandosCoordenador">
-        <h3 style={{ textAlign: "center", marginBottom: "10px" }}>
-          Alunos de Mestrado
-        </h3>
-        <ul>
-          {alunosMestrado.map((aluno) => (
-            <li
-              style={{ cursor: "pointer", padding: "7px 20px" }}
-              key={aluno.id}
-              onDoubleClick={() => handleDoubleClick(aluno.matricula)}
+      <div className="listaAlunos">
+        <div className="containerOrientandosCoordenador">
+          <ul>
+            <h3
+              style={{
+                marginLeft: "20px",
+                marginBottom: "10px",
+                padding: "5px",
+              }}
             >
-              <div>
-                <strong>{aluno.nome}</strong> - Matrícula: {aluno.matricula} -
-                Titulação: {aluno.titulacao}
-                <br />
-                Conclusão prevista em {aluno.datafinal}
-              </div>
-              <div>
-                <button
-                  className="bttn"
-                  onClick={() => handleDoubleClick(aluno.matricula)}
-                  style={{
-                    marginRight: "10px",
-                    height: "30px",
-                    borderRadius: "5px",
-                    width: "95px",
-                    fontSize: "13px",
-                  }}
-                >
-                  Abrir
-                </button>
-                <button
-                  className="bttn"
-                  onClick={() => {
-                    setSelectedAluno(aluno);
-                    setShowModal(true);
-                  }}
-                  style={{
-                    marginRight: "10px",
-                    height: "30px",
-                    borderRadius: "5px",
-                    width: "95px",
-                    fontSize: "13px",
-                  }}
-                >
-                  Remover
-                </button>
-              </div>
-            </li>
-          ))}
-        </ul>
-      </div>
+              Alunos de Mestrado
+            </h3>
+            {alunosMestrado.map((aluno) => (
+              <li
+                style={{ cursor: "pointer", padding: "7px 20px" }}
+                key={aluno.id}
+                onDoubleClick={() => handleDoubleClick(aluno.matricula)}
+              >
+                <div>
+                  <strong>{aluno.nome}</strong> Matrícula: {aluno.matricula}{" "}
+                  <br />
+                  Conclusão prevista em {aluno.datafinal}
+                </div>
+                <div>
+                  <button
+                    className="bttn"
+                    onClick={() => handleDoubleClick(aluno.matricula)}
+                    style={{
+                      marginRight: "10px",
+                      height: "30px",
+                      borderRadius: "5px",
+                      width: "95px",
+                      fontSize: "13px",
+                    }}
+                  >
+                    Abrir
+                  </button>
+                  <button
+                    className="bttn"
+                    onClick={() => {
+                      setSelectedAluno(aluno);
+                      setShowModal(true);
+                    }}
+                    style={{
+                      marginRight: "10px",
+                      height: "30px",
+                      borderRadius: "5px",
+                      width: "95px",
+                      fontSize: "13px",
+                    }}
+                  >
+                    Remover
+                  </button>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
 
-      {/* Container de Alunos Orientados - Doutorado */}
-      <div
-        className="containerOrientandosCoordenador"
-        style={{ marginTop: "30px" }}
-      >
-        <h3 style={{ textAlign: "center", marginBottom: "10px" }}>
-          Alunos de Doutorado
-        </h3>
-        <ul>
-          {alunosDoutorado.map((aluno) => (
-            <li
-              style={{ cursor: "pointer", padding: "7px 20px" }}
-              key={aluno.id}
-              onDoubleClick={() => handleDoubleClick(aluno.matricula)}
+        {/* Container de Alunos Orientados - Doutorado */}
+        <div className="containerOrientandosCoordenador">
+          <ul>
+            <h3
+              style={{
+                marginLeft: "20px",
+                marginBottom: "10px",
+                padding: "5px",
+              }}
             >
-              <div>
-                <strong>{aluno.nome}</strong> - Matrícula: {aluno.matricula} -
-                Titulação: {aluno.titulacao}
-                <br />
-                Conclusão prevista em {aluno.datafinal}
-              </div>
-              <div>
-                <button
-                  className="bttn"
-                  onClick={() => handleDoubleClick(aluno.matricula)}
-                  style={{
-                    marginRight: "10px",
-                    height: "30px",
-                    borderRadius: "5px",
-                    width: "95px",
-                    fontSize: "13px",
-                  }}
-                >
-                  Abrir
-                </button>
-                <button
-                  className="bttn"
-                  onClick={() => {
-                    setSelectedAluno(aluno);
-                    setShowModal(true);
-                  }}
-                  style={{
-                    marginRight: "10px",
-                    height: "30px",
-                    borderRadius: "5px",
-                    width: "95px",
-                    fontSize: "13px",
-                  }}
-                >
-                  Remover
-                </button>
-              </div>
-            </li>
-          ))}
-        </ul>
+              Alunos de Doutorado
+            </h3>
+            {alunosDoutorado.map((aluno) => (
+              <li
+                style={{ cursor: "pointer", padding: "7px 20px" }}
+                key={aluno.id}
+                onDoubleClick={() => handleDoubleClick(aluno.matricula)}
+              >
+                <div>
+                  <strong>{aluno.nome}</strong> Matrícula: {aluno.matricula}{" "}
+                  <br />
+                  Conclusão prevista em {aluno.datafinal}
+                </div>
+                <div>
+                  <button
+                    className="bttn"
+                    onClick={() => handleDoubleClick(aluno.matricula)}
+                    style={{
+                      marginRight: "10px",
+                      height: "30px",
+                      borderRadius: "5px",
+                      width: "95px",
+                      fontSize: "13px",
+                    }}
+                  >
+                    Abrir
+                  </button>
+                  <button
+                    className="bttn"
+                    onClick={() => {
+                      setSelectedAluno(aluno); // Definir o aluno selecionado como o object
+                      setShowModal(true);
+                    }}
+                    style={{
+                      marginRight: "10px",
+                      height: "30px",
+                      borderRadius: "5px",
+                      width: "95px",
+                      fontSize: "13px",
+                    }}
+                  >
+                    Remover
+                  </button>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
 
       {/* Modal de confirmação */}

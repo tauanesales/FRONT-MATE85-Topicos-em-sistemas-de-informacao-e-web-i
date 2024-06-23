@@ -1,17 +1,32 @@
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background: linear-gradient(326deg, rgba(246,249,250,1) 0%, rgba(236,240,243,1) 34%);
+}
+
 .containerPrincipal {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   width: 1080px;
-  height: 600px;
+  height: 670px;
   display: flex;
   justify-content: center;
   align-items: top;
   display: flex;
   flex-direction: column;
   align-items: center;
+  background-color: white; 
+  border-radius: 10px; 
 }
+
+
+.backgroundContainer{
+  background-color: #515d75; 
+}
+
 
 .inputContainer {
   display: flex;
@@ -21,11 +36,12 @@
 }
 .inputData {
   align-items: center; 
-  width: 240px;
+  width: 10em;
+  background-color: #ffffff; 
 }
 
 .inputData select {
-  width: 8.2vh;
+  width: 9.5vh;
 }
 
 .inputRow {
@@ -68,9 +84,6 @@
   margin-bottom: 10px;
 }
 
-.buttonCadastro {
-  margin-top: 0px;
-}
 
 .bttn {
   color: #000000;
@@ -86,4 +99,23 @@
 }
 .bttn:hover{
   background-color: #E9EAEC; 
+}
+
+/* styles.css */
+.containerPrincipal {
+  display: flex;
+  flex-direction: column;
+  gap: 8px; /* Ajuste conforme necessário */
+  padding: 16px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.field {
+  margin-bottom: 1px; /* Ajuste conforme necessário */
+}
+
+.radioGroup {
+  margin-bottom: 16px; /* Ajuste conforme necessário */
 }

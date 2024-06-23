@@ -4,9 +4,8 @@
   align-items: center;
   background-color: white;
   height: 97vh;
-  width: 80%;
+  width: 170vh;
   font-family: "Roboto", sans-serif;
-  
 }
 
 .containerAluno {
@@ -17,62 +16,90 @@
   background-color: #edf1f4;
   display: flex;
   padding: 20px 20px;
-  box-sizing: border-box; 
-  box-shadow: 0px 0px 2px 2px rgba(0,0,0,0.1);
+  box-sizing: border-box;
+  box-shadow: 0px 0px 2px 2px rgba(0, 0, 0, 0.1);
 }
 
 .containerAluno img {
   width: 7em;
-  height: 9em;
+  height: 8em;
   align-self: center;
-  margin-right: 25px; 
+  margin-right: 25px;
   mix-blend-mode: multiply; /*Remove o fundo branco */
 }
 .infoAluno {
   display: flex;
   align-items: flex-start; /* Ajusta o alinhamento vertical */
-  width: 70%; 
+  width: 70%;
 }
 
 .boxInfoAluno {
   line-height: 2;
-  padding: 0px 10px; 
-  width: 400px; 
+  padding: 0px 10px;
+  width: 400px;
 }
 .boxInfoAluno h2 {
   white-space: nowrap;
 }
 
-
 .boxInfoAluno span {
   font-weight: 700;
 }
 
-.botoesToolbar {
-  display: flex;
+.botoesToolbarAluno {
+  display: grid;
   flex-direction: column;
   gap: 1em;
-  width: 100%;
+  margin-left: 39vh;
+  margin-bottom: 5vh;
   align-items: flex-end;
+}
+
+.dateInput {
+  margin-left: 15px;
+  padding: 3px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  background-color: #f9f9f9;
+}
+
+.bttnSalvar {
+  height: 35px;
+  width: 100px;
+  padding: 0 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 5px;
+  margin-top: 5px;
+  color: #000000;
+  background-color: #d6dde2;
+  font-family: "Raleway", sans-serif;
+  font-size: 1em;
+  font-weight: 600;
+  border: none;
+}
+.bttnSalvar:hover {
+  background-color: #e9eaec;
 }
 
 .tarefasAluno {
   display: flex;
   justify-content: space-around;
-  width: 100%;
-  max-width: 1300px;
+  width: 85%;
   margin: 0 auto;
-  padding-top: 12em; /* Adiciona espaço entre o containerAluno e as tarefas*/
+  padding-top: 3em; /* Adiciona espaço entre o containerAluno e as tarefas*/
 }
 
 .boxTarefas {
   overflow-y: auto;
+  margin-top: -50px;
   border-radius: 5px;
   padding: 15px 5px;
   background-color: #edf1f4;
-  height: 45vh;
-  width: 45%;
-  box-shadow: 0px 0px 3px 3px rgba(0,0,0,0.1);
+  height: 50vh;
+  width: 80vh;
+  box-shadow: 0px 0px 3px 3px rgba(0, 0, 0, 0.1);
 }
 
 #task {
@@ -81,4 +108,11 @@
   border: 1px solid grey;
   padding: 5px;
   border-radius: 3px;
+}
+
+.chart-container {
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #fff;
 }

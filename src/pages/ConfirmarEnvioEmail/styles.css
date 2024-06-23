@@ -1,4 +1,9 @@
 .gap{
   display: flex;
-  gap: 2em !important;
+  gap: 1.5em !important;
+}
+
+.error {
+  color: red;
+  font-size: 0.9em;
 }

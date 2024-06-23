@@ -69,7 +69,7 @@ const Login = () => {
               onChange={(e) => setPassword(e.target.value)}
             />
 
-            <div className="conectado">
+            <div className="conectado" style={{ marginTop: "1em" }}>
               <input type="checkbox" name="conectado" id="conectado" />
               <label htmlFor="conectado">Matenha-me conectado</label>
             </div>

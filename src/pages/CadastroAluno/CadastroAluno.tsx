@@ -230,9 +230,14 @@ const CadastroAluno = () => {
     >
       {({ isSubmitting, handleSubmit }) => (
         <Form className="containerPrincipal">
-          <img src="assets/logoPgcop.png" width={110} />
+          <img
+            style={{ position: "absolute", marginTop: "-495px" }}
+            src="assets/logoPgcop.png"
+            width={80}
+          />
 
           <RadioGroup
+            style={{ marginTop: "120px" }}
             row
             aria-label="tipo-cadastro"
             name="tipo-cadastro"
@@ -295,6 +300,7 @@ const CadastroAluno = () => {
               />
 
               <FormikPasswordInput
+                className="imputPassword"
                 name="senhaConfirmada"
                 label="Confirmar senha"
                 fullWidth
@@ -380,10 +386,17 @@ const CadastroAluno = () => {
             </div>
           </div>
 
-          <div className="buttonCadastro">
+          <div className="buttonCadastro" style={{ marginTop: "-1em" }}>
             <LoadingButton
               className="bttn"
-              sx={{ marginTop: 2 }}
+              sx={{
+                marginTop: 2,
+                color: "#000000",
+                backgroundColor: "#D6DDE2", // cinza claro
+                "&:hover": {
+                  backgroundColor: "#E9EAEC", // cor cinza um pouco mais escura ao passar o mouse
+                },
+              }}
               variant="contained"
               fullWidth
               loading={isSubmitting}

@@ -12,6 +12,8 @@ import { useProfessoresQueries } from "@/queries/professores";
 import { useTarefasQueries } from "@/queries/tarefas";
 import { useUserQueries } from "@/queries/user";
 
+import D3Visualization from "../../components/D3Visualization"; // Import Vis
+
 function PerfilAluno() {
   const navigate = useNavigate();
 
@@ -30,6 +32,31 @@ function PerfilAluno() {
   const { data: tarefas = [] } = useGetTarefaAluno();
 
   const { mutate: updateTarefa } = useUpdateTarefa();
+
+  //const dataFinal = new Date(dataDeInicio.getFullYear(), dataDeInicio.getMonth() + ultimaTarefa.prazoMeses, dataDeInicio.getDate());
+  const [dataAtual, setDataAtual] = useState(new Date());
+  const [aluno, setAluno] = useState({
+    id: 1,
+    nome: "João Silva",
+    matricula: "2022001",
+    titulacao: "Mestrado",
+    datainicio: "2023-01-01",
+    orientador: "Frederico Durão",
+  }); // Estado para armazenar os dados do aluno
+
+  // Definindo as datas de início e atual
+  const getData = new Date(aluno.datainicio);
+
+  const dataDeInicio = new Date(
+    getData.getFullYear(),
+    getData.getMonth(),
+    getData.getDate() + 1,
+  );
+
+  // Definindo a data final com base na titulação do aluno
+  const anosDePrazo = aluno.titulacao === "Mestrado" ? 2 : 4;
+  const dataFinal = new Date(dataDeInicio);
+  dataFinal.setFullYear(dataFinal.getFullYear() + anosDePrazo);
 
   const { useGetProfessores } = useProfessoresQueries();
 
@@ -123,6 +150,26 @@ function PerfilAluno() {
         </div>
       </div>
 
+      {/* Visualização */}
+      <D3Visualization
+        dataDeInicio={dataDeInicio}
+        dataFinal={dataFinal}
+        dataAtual={dataAtual}
+        tarefas={tarefas}
+      />
+      {/* Div Mouseover */}
+      <div
+        id="tooltip"
+        style={{
+          display: "none",
+          position: "fixed",
+          backgroundColor: "white",
+          padding: "5px",
+          border: "1px solid black",
+          borderEndEndRadius: "15px",
+        }}
+      ></div>
+
       <div className="tarefasAluno">
         <div className="boxTarefas">
           <h3 style={{ textAlign: "center" }}>TAREFAS A FAZER</h3>
@@ -181,21 +228,21 @@ function PerfilAluno() {
                     <label style={{ marginLeft: "40px", fontSize: "15px" }}>
                       Data de realização:
                       <input
+                        className="dateInput"
                         type="date"
                         value={dataSelecionada.toLocaleDateString()}
                         onChange={(e) =>
                           setDataSelecionada(new Date(e.target.value))
                         }
-                        style={{ marginLeft: "25px" }}
+                        style={{ marginLeft: "15px" }}
                       />
                       <button
+                        className="bttnSalvar"
                         onClick={() => salvarDataRealizacao(tarefa)}
                         style={{
-                          marginLeft: "25px",
+                          marginLeft: "12vh",
                           width: "70px",
                           height: "25px",
-                          borderRadius: "5px",
-                          fontSize: "13px",
                         }}
                       >
                         Salvar
@@ -203,10 +250,10 @@ function PerfilAluno() {
                     </label>
                   </>
                 )}
-                <br></br>
+                <br />
                 <label style={{ marginLeft: "40px", fontSize: "15px" }}>
                   {tarefa.descricao}
-                  <br></br>
+                  <br />
                 </label>
                 <label style={{ marginLeft: "40px", fontSize: "15px" }}>
                   Data Limite: {format(prazo, "dd/MM/yyyy")} - {statusData}
@@ -218,42 +265,56 @@ function PerfilAluno() {
 
         <div className="boxTarefas">
           <h3 style={{ textAlign: "center" }}>TAREFAS REALIZADAS</h3>
-          {tarefasFeitas.map((tarefa) => {
-            return (
-              <div
-                id="task"
-                key={tarefa.id}
-                style={{ backgroundColor: "#ADD8E6" }}
-              >
-                <AiOutlineFileExcel // Marcador icone
-                  onClick={() => handleCheckboxChange(tarefa)}
-                  style={{ cursor: "pointer", marginLeft: "5px" }}
-                  size={20}
-                  title="Desfazer"
-                />
-                <label
-                  style={{
-                    marginLeft: "15px",
-                    fontSize: "18px",
-                    fontWeight: "500",
-                  }}
+          {tarefasFeitas.length === 0 ? (
+            <p
+              style={{
+                textAlign: "center",
+                marginTop: "70px",
+                fontSize: "25px",
+                fontWeight: "600",
+                color: "lightgrey",
+              }}
+            >
+              AINDA NÃO HÁ TAREFAS REALIZADAS
+            </p>
+          ) : (
+            tarefasFeitas.map((tarefa) => {
+              return (
+                <div
+                  id="task"
+                  key={tarefa.id}
+                  style={{ backgroundColor: "#ADD8E6" }}
                 >
-                  {tarefa.nome}
-                </label>
-                <br></br>
-                <label style={{ marginLeft: "40px", fontSize: "15px" }}>
-                  {tarefa.descricao}
-                  <br></br>
-                </label>
-                <label style={{ marginLeft: "40px", fontSize: "15px" }}>
-                  Realizada em:{" "}
-                  {tarefa.data_conclusao
-                    ? new Date(tarefa.data_conclusao).toLocaleDateString()
-                    : "-"}
-                </label>
-              </div>
-            );
-          })}
+                  <AiOutlineFileExcel // Marcador icone
+                    onClick={() => handleCheckboxChange(tarefa.id)}
+                    style={{ cursor: "pointer", marginLeft: "5px" }}
+                    size={20}
+                    title="Desfazer"
+                  />
+                  <label
+                    style={{
+                      marginLeft: "15px",
+                      fontSize: "18px",
+                      fontWeight: "500",
+                    }}
+                  >
+                    {tarefa.nome}
+                  </label>
+                  <br />
+                  <label style={{ marginLeft: "40px", fontSize: "15px" }}>
+                    {tarefa.descricao}
+                    <br />
+                  </label>
+                  <label style={{ marginLeft: "40px", fontSize: "15px" }}>
+                    Realizada em:{" "}
+                    {tarefa.data_conclusao
+                      ? new Date(tarefa.data_conclusao).toLocaleDateString()
+                      : "-"}
+                  </label>
+                </div>
+              );
+            })
+          )}
         </div>
       </div>
     </div>

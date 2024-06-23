@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
 import "./styles.css";
 import LoadingButton from "@mui/lab/LoadingButton";
-import { MenuItem, RadioGroup, FormControlLabel, Radio } from "@mui/material";
+import { MenuItem} from "@mui/material";
 import { useMask } from "@react-input/mask";
 import { Form, Formik } from "formik";
 import * as Yup from "yup";
@@ -63,9 +62,9 @@ function AtualizarDados() {
     >
       {({ isSubmitting, handleSubmit }) => (
         <Form className="containerPrincipal">
-          <img src={logoPgcop} width={110} />
+          <img src={logoPgcop} width={70} />
 
-          <div style={{ display: "flex", gap: 16 }}>
+          <div style={{ display: "flex", gap: 56 }}>
             <div style={{ display: "flex", flexDirection: "column" }}>
               <FormikInput
                 name="name"
