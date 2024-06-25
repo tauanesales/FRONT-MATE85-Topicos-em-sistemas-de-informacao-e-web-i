@@ -2,14 +2,7 @@ import { Aluno } from "@/models/User";
 
 import api from "./config";
 
-export const getAlunosProfessor = (orientadorId: number) =>
+export const removerOrientador = (id: number) =>
   api
-    .get<Aluno[]>(`/alunos/orientador/${orientadorId}`)
-    .then((response) => response.data);
-
-type UpdateAlunoParams = Partial<Aluno> & Pick<Aluno, "id">;
-
-export const updateAluno = ({ id, ...aluno }: UpdateAlunoParams) =>
-  api
-    .put<Aluno>(`/alunos/${id}`, { ...aluno, nome: "Teste" })
+    .put<Aluno>(`/alunos/${id}/remover-orientador`)
     .then((response) => response.data);

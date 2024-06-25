@@ -7,10 +7,10 @@ import * as alunosApi from "../services/api/alunos";
 export const useAlunosQueries = () => {
   const queryClient = useQueryClient();
 
-  const useUpdateAluno = () =>
+  const useRemoverOrientador = () =>
     useMutation({
-      mutationFn: alunosApi.updateAluno,
-      onMutate: async ({ id }) => {
+      mutationFn: alunosApi.removerOrientador,
+      onMutate: async (id) => {
         await queryClient.cancelQueries({
           queryKey: ["orientandos"],
         });
@@ -37,6 +37,6 @@ export const useAlunosQueries = () => {
     });
 
   return {
-    useUpdateAluno,
+    useRemoverOrientador,
   };
 };

@@ -13,7 +13,7 @@ export const getUser = (accessToken?: string) =>
     },
   });
 
-type CreateAlunoRequestData = Omit<Aluno, "id"> & {
+type CreateAlunoRequestData = Omit<Aluno, "id" | "orientador"> & {
   senha: string;
 };
 
@@ -26,6 +26,11 @@ type CreateProfessorRequestData = Omit<Professor, "id"> & {
 
 export const createProfessor = (data: CreateProfessorRequestData) =>
   api.post<Professor>("/professores", data);
+
+type UpdateUserParams = Partial<Omit<User, "id">>;
+
+export const updateUser = (aluno: UpdateUserParams) =>
+  api.put<User>("/usuarios", aluno).then((response) => response.data);
 
 type AuthenticateUserRequestData = {
   username: string;

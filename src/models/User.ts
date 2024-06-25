@@ -26,6 +26,11 @@ export type Aluno = UserBase & {
   data_ingresso: string;
   data_qualificacao: string | null;
   data_defesa: string | null;
+  orientador: {
+    nome: string;
+    email: string;
+    id: number;
+  };
 };
 
 export type Professor = UserBase & {

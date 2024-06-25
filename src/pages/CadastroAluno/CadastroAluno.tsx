@@ -4,7 +4,6 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import { FormControlLabel, MenuItem, Radio, RadioGroup } from "@mui/material";
 import { unformat, useMask } from "@react-input/mask";
 import { Form, Formik, FormikHelpers } from "formik";
-import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 
@@ -34,7 +33,7 @@ type Values = {
   lattes: string;
   curso: "M" | "D" | "";
   senhaConfirmada: string;
-  tipo_usuario: TipoUsuario | "";
+  tipo_usuario: TipoUsuario;
 };
 
 const cpfMaskOptions = {
@@ -43,7 +42,7 @@ const cpfMaskOptions = {
 };
 
 const telefoneMaskOptions = {
-  mask: "(__) _____ ____",
+  mask: "(__) _____-____",
   replacement: { _: /\d/ },
 };
 
@@ -63,10 +62,6 @@ const CadastroAluno = () => {
   const { useGetProfessores } = useProfessoresQueries();
 
   const { data: professores = [] } = useGetProfessores();
-
-  const [tipoCadastro, setTipoCadastro] = useState<"aluno" | "professor">(
-    "aluno",
-  );
 
   const handleSignUp = (
     values: Values,
@@ -97,13 +92,13 @@ const CadastroAluno = () => {
       navigate(from, { replace: true });
     };
 
-    if (tipoCadastro === "aluno") {
+    if (tipo_usuario === TipoUsuario.ALUNO) {
       createAluno(
         {
           nome,
           email,
           senha,
-          tipo_usuario: TipoUsuario.ALUNO,
+          tipo_usuario,
           orientador_id: orientador_id as number,
           curso: curso as "M" | "D",
           data_ingresso: (data_ingresso as Date).toISOString().split("T")[0],
@@ -132,9 +127,7 @@ const CadastroAluno = () => {
           nome,
           email,
           senha,
-          tipo_usuario: tipo_usuario as
-            | TipoUsuario.PROFESSOR
-            | TipoUsuario.COORDENADOR,
+          tipo_usuario,
         },
         {
           onSettled,
@@ -160,43 +153,40 @@ const CadastroAluno = () => {
     email: Yup.string()
       .email("Insira um e-mail válido")
       .required("Insira um e-mail"),
-    telefone:
-      tipoCadastro === "aluno"
-        ? Yup.string().required("Insira seu telefone")
-        : Yup.string().notRequired(),
-    cpf:
-      tipoCadastro === "aluno"
-        ? Yup.string().required("Insira seu CPF")
-        : Yup.string().notRequired(),
-    lattes:
-      tipoCadastro === "aluno"
-        ? Yup.string().required("Insira o link para seu perfil no Lattes")
-        : Yup.string().notRequired(),
-    matricula:
-      tipoCadastro === "aluno"
-        ? Yup.string().required("Insira o seu número de matrícula")
-        : Yup.string().notRequired(),
-    orientador_id:
-      tipoCadastro === "aluno"
-        ? Yup.number().required("Selecione um orientador")
-        : Yup.string().notRequired(),
-    role:
-      tipoCadastro === "professor"
-        ? Yup.string().required("Selecione sua função")
-        : Yup.string().notRequired(),
-    data_ingresso:
-      tipoCadastro === "aluno"
-        ? Yup.date()
-            .required("Insira uma data")
-            .max(new Date(), "Escolha uma data no passado")
-        : Yup.date().notRequired(),
-    curso:
-      tipoCadastro === "aluno"
-        ? Yup.string()
-            .required()
-            .oneOf(["M", "D"])
-            .required("Selecione uma titulação")
-        : Yup.string().notRequired(),
+    telefone: Yup.string().when("tipo_usuario", {
+      is: TipoUsuario.ALUNO,
+      then: (schema) => schema.required("Insira seu telefone"),
+    }),
+    cpf: Yup.string().when("tipo_usuario", {
+      is: TipoUsuario.ALUNO,
+      then: (schema) => schema.required("Insira seu CPF"),
+    }),
+    lattes: Yup.string().when("tipo_usuario", {
+      is: TipoUsuario.ALUNO,
+      then: (schema) =>
+        schema.required("Insira o link para seu perfil no Lattes"),
+    }),
+    matricula: Yup.string().when("tipo_usuario", {
+      is: TipoUsuario.ALUNO,
+      then: (schema) => schema.required("Insira o seu número de matrícula"),
+    }),
+    orientador_id: Yup.string().when("tipo_usuario", {
+      is: TipoUsuario.ALUNO,
+      then: (schema) => schema.required("Selecione um orientador"),
+    }),
+    data_ingresso: Yup.date().when("tipo_usuario", {
+      is: TipoUsuario.ALUNO,
+      then: (schema) =>
+        schema
+          .required("Insira uma data")
+          .max(new Date(), "Escolha uma data no passado"),
+      otherwise: (schema) => schema.notRequired(),
+    }),
+    curso: Yup.string().when("tipo_usuario", {
+      is: TipoUsuario.ALUNO,
+      then: (schema) =>
+        schema.required().oneOf(["M", "D"]).required("Selecione uma titulação"),
+    }),
     senha: Yup.string()
       .min(8, ({ min }) => `A senha deve ter no mínimo ${min} caracteres`)
       .required("Insira uma senha"),
@@ -219,7 +209,7 @@ const CadastroAluno = () => {
         matricula: "",
         orientador_id: "",
         data_ingresso: null,
-        tipo_usuario: "",
+        tipo_usuario: TipoUsuario.ALUNO,
         lattes: "",
         curso: "",
         senha: "",
@@ -228,27 +218,27 @@ const CadastroAluno = () => {
       validationSchema={validationSchema}
       onSubmit={handleSignUp}
     >
-      {({ isSubmitting, handleSubmit }) => (
+      {({ values, setFieldValue, isSubmitting, handleSubmit }) => (
         <Form className="containerPrincipal">
           <img src="assets/logoPgcop.png" width={110} />
 
           <RadioGroup
             row
-            aria-label="tipo-cadastro"
-            name="tipo-cadastro"
-            value={tipoCadastro}
+            aria-label="tipo-usuario"
+            name="tipo-usuario"
+            value={values.tipo_usuario}
             onChange={(e) =>
-              setTipoCadastro(e.target.value as "aluno" | "professor")
+              setFieldValue("tipo_usuario", e.target.value as TipoUsuario)
             }
           >
             <FormControlLabel
-              value="aluno"
+              value={TipoUsuario.ALUNO}
               control={<Radio color="primary" />}
               label="Aluno"
             />
             <FormControlLabel
               style={{ marginRight: "400px" }}
-              value="professor"
+              value={TipoUsuario.PROFESSOR}
               control={<Radio color="primary" />}
               label="Professor"
             />
@@ -303,7 +293,7 @@ const CadastroAluno = () => {
             </div>
 
             <div style={{ display: "flex", flexDirection: "column" }}>
-              {tipoCadastro === "aluno" && (
+              {values.tipo_usuario === TipoUsuario.ALUNO ? (
                 <div style={{ display: "flex", flexDirection: "column" }}>
                   <FormikInput
                     name="matricula"
@@ -353,17 +343,15 @@ const CadastroAluno = () => {
                     required
                   />
                 </div>
-              )}
-
-              {tipoCadastro === "professor" && (
+              ) : (
                 <div style={{ display: "flex", flexDirection: "column" }}>
                   <FormikInput
                     className="inputRow"
                     style={{ width: "240px" }}
                     fullWidth
                     variant="standard"
-                    id="select-role"
-                    name="role"
+                    id="select-tipo-usuario"
+                    name="tipo_usuario"
                     label="Função"
                     select
                     required

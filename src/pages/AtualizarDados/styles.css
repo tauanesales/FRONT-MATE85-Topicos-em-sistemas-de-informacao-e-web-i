@@ -15,18 +15,22 @@
 
 .inputContainer {
   display: flex;
-  flex-wrap: wrap; 
-  justify-content: center; 
+  flex-wrap: wrap;
+  justify-content: center;
   margin-bottom: 10px;
 }
 .inputData {
-  align-items: center; 
-  width: 250px;
+  align-items: center;
+  width: 240px;
+}
+
+.inputData select {
+  width: 8.2vh;
 }
 
 .inputRow {
   display: flex;
-  flex-direction: column; 
+  flex-direction: column;
   align-items: start;
   margin-bottom: 5px;
 }
@@ -36,7 +40,6 @@
   margin-right: 20px; /* margem direita */
 }
 
-
 .inputRow:last-child > * {
   margin-right: 0;
 }
@@ -45,14 +48,15 @@
   width: auto;
 }
 
-.inputCadastro, .inputSenha {
+.inputCadastro,
+.inputSenha {
   padding: 8px;
   width: 200px;
   border-radius: 5px;
   border: 1px solid #ccc;
 }
 
-.inputSenha{
+.inputSenha {
   width: 250px;
 }
 
@@ -70,7 +74,7 @@
 
 .bttn {
   color: #000000;
-  background-color: #D6DDE2;
+  background-color: #d6dde2;
   font-family: "Raleway", sans-serif;
   font-size: 1em;
   font-weight: 700;
@@ -80,6 +84,6 @@
   width: 150px;
   height: 2.5em;
 }
-.bttn:hover{
-  background-color: #E9EAEC; 
+.bttn:hover {
+  background-color: #e9eaec;
 }

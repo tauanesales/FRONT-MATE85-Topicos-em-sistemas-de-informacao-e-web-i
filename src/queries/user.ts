@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
+import { User } from "@/models/User";
 import { resetAllStores } from "@/store/helpers";
 import { saveTokens } from "@/store/tokens";
 
@@ -40,6 +41,13 @@ export const useUserQueries = () => {
       mutationFn: userApi.createProfessor,
     });
 
+  const useUpdateUser = () =>
+    useMutation({
+      mutationFn: userApi.updateUser,
+      onSuccess: (user) => queryClient.setQueryData<User>(["user"], user),
+      onSettled: () => queryClient.invalidateQueries({ queryKey: ["user"] }),
+    });
+
   const signOut = () => {
     resetAllStores();
     queryClient.clear();
@@ -51,6 +59,7 @@ export const useUserQueries = () => {
     useAuthUser,
     useCreateAluno,
     useCreateProfessor,
+    useUpdateUser,
     signOut,
   };
 };

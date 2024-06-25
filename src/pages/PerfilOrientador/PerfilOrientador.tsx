@@ -35,9 +35,9 @@ function PerfilOrientador() {
 
   const { data: alunos = [] } = useGetAlunosOrientador();
 
-  const { useUpdateAluno } = useAlunosQueries();
+  const { useRemoverOrientador } = useAlunosQueries();
 
-  const { mutate: updateAluno } = useUpdateAluno();
+  const { mutate: removerOrientador } = useRemoverOrientador();
 
   const [showModal, setShowModal] = useState(false);
   const [selectedAluno, setSelectedAluno] = useState<Aluno>();
@@ -57,7 +57,7 @@ function PerfilOrientador() {
   };
 
   const handleDelete = () => {
-    updateAluno({ id: selectedAluno!.id, orientador_id: null });
+    removerOrientador(selectedAluno!.id);
     setShowModal(false);
   };
 
@@ -83,7 +83,7 @@ function PerfilOrientador() {
           style={{ justifyContent: "space-between" }}
         >
           <div>
-            <h2>Augusto Carlos Santos</h2>
+            <h2>{user?.nome}</h2>
             <h3>Orientandos: {alunos.length}</h3>
           </div>
           <div className="botoesToolbar">
