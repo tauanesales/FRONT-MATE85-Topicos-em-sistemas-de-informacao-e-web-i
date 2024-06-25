@@ -18,7 +18,7 @@
     "@mui/icons-material": "5.15.15",
     "@mui/lab": "5.0.0-alpha.170",
     "@mui/material": "5.15.15",
-    "@mui/x-date-pickers": "^7.4.0",
+    "@mui/x-date-pickers": "^7.7.0",
     "@react-input/mask": "1.2.3",
     "@tanstack/react-query": "5.34.2",
     "@tanstack/react-query-devtools": "5.34.2",
@@ -34,7 +34,11 @@
     "react-icons": "5.0.1",
     "react-router-dom": "6.22.3",
     "yup": "1.4.0",
-    "zustand": "4.5.2"
+    "zustand": "4.5.2",
+    "d3": "^7.9.0",
+    "d3.js": "^0.0.2-security",
+    "react-datepicker": "^6.9.0",
+    "react-pin-input": "^1.3.1"
   },
   "devDependencies": {
     "@types/humps": "2.0.6",

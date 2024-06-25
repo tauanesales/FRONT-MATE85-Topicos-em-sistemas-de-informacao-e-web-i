@@ -1,4 +1,5 @@
-import "./styles.css";
+import './styles.css'
+import ButtonSecondary from '@/components/ButtonSecondary';
 
 const ConfirmarNovaSenha = () => {
   const logoPgcop = "assets/logoPgcop.png";
@@ -11,6 +12,7 @@ const ConfirmarNovaSenha = () => {
           <h1>Senha atualizada!</h1>
           <p>Sua senha foi atualizada com sucesso.</p>
         </div>
+        <ButtonSecondary  link={'/'} label={"Voltar"} width={"12em"} />
       </div>
     </div>
   );
